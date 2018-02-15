@@ -45,7 +45,7 @@ int findmin(int bu[],int ar[],int t,int n,int y)
 {
 //  printf("\nPRINTIT %d \n",y);
   int i,min=1000000;
-  int index,x=min;
+  int index;
   for(i=0;i<n;i++)
     {
       if(ar[i]<=t)
@@ -73,8 +73,5 @@ int findmin(int bu[],int ar[],int t,int n,int y)
             }
         }
     }
-  if(x==min)
-    return findmin(bu,ar,t+1,n,y);
-  else
-    return index;
+return index;
 }
