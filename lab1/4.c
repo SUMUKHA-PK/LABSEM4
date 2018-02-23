@@ -4,7 +4,7 @@
 
 int main ()
 {
- char* path = "/home/student/Desktop/lab1";
+ char* path = "/home/impk/pk/Academics/SEM4/OS/oslab/lab1";
  int rval;
 
  /* Check file existence. */

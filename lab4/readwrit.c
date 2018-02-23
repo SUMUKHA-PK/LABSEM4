@@ -48,7 +48,7 @@ void * Writer(void *arg)
 
 sleep(1);
 int temp=(int)arg;
-printf(“\nWriter %d is trying to enter into database for modifying the data”,temp);
+printf(“\nWriter %d is trying to enter into database modifying the data”,temp);
 sem_wait(&databaseAccess);
 printf(“\nWriter %d is writting into the database”,temp);
 printf(“\nWriter %d is leaving the database”);
@@ -69,7 +69,7 @@ printf(“\nReader %d is reading the database”,temp);
 }
 sem_post(&readCountAccess);
 sem_wait(&readCountAccess);
-readCount–;
+readCount--;
 if(readCount==0)
 {
 printf(“\nReader %d is leaving the database”,temp);

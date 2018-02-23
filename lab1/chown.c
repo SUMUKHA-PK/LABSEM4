@@ -17,7 +17,7 @@ if(fo<0)
  	exit(1);
 }
 printf("Opened the file= %d\n",fo);
-char* c= "/home/student/Documents";
+char* c= "/home/impk/pk/Academics/SEM4/OS/oslab/lab1";
 int ch = chown(c,getuid(),getgid()); // changes the owner of the path by the specified ID
 printf("%d\n",ch);
 if(ch==0)

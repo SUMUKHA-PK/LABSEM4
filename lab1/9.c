@@ -21,7 +21,7 @@ if(fo<0)
  	exit(1);
 }
 printf("Opened the file= %d\n",fo);
-char* de = "/home/student/Downloads";
+char* de = "/home/impk/Downloads";
 int c=chdir(de);
 printf("%d\n",c); // returns zero on success
 if(c==0)

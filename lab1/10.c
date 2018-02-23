@@ -17,8 +17,8 @@ if(fo<0)
  	exit(1);
 }
 printf("Opened the file= %d\n",fo);
-char *c ="/home/student/Desktop/lab1/link";
+char *c ="/home/impk/pk/Academics/SEM4/OS/oslab/lab1/fork";
 printf("New program execution: \n");
-execl(c,"link",(char*)NULL);
+execl(c,"doesnt matter",(char*)NULL);
 return 0;
 }
