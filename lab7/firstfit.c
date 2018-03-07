@@ -48,7 +48,7 @@ int main()
                   printf("\n Enter the partition you want to de-allocate: ");
                   int h;
                   scanf("%d",&h);
-                  parts[h].valid=1;
+                  parts[h].valid=0;
                   printf("Process %d assigned to partition %d \n", i, h);
                 }
             }
@@ -102,4 +102,4 @@ int findmax(struct partitions parts[], int n,int pro)
 //----Allowed partitions are: 0
 //----Enter the partition you want to de-allocate:
 //0
-//----Process 6 assigned to partition 0 
+//----Process 6 assigned to partition 0

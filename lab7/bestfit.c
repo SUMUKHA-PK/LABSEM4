@@ -48,7 +48,7 @@ int main()
                   printf("\n Enter the partition you want to de-allocate: ");
                   int h;
                   scanf("%d",&h);
-                  parts[h].valid=1;
+                  parts[h].valid=0;
                   printf("Process %d assigned to partition %d \n", i, h);
                 }
             }

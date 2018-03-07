@@ -48,7 +48,7 @@ int main()
                   printf("\n Enter the partition you want to de-allocate: ");
                   int h;
                   scanf("%d",&h);
-                  parts[h].valid=1;
+                  parts[h].valid=0;
                   printf("Process %d assigned to partition %d \n", i, h);
                 }
             }
@@ -63,7 +63,7 @@ int findmax(struct partitions parts[], int n,int pro)
     {
       if(parts[i].valid==1)
         {
-          if(m<parts[i].capacity&& parts[i].capacity>pro)
+          if(m<=parts[i].capacity&& parts[i].capacity>=pro)
           {  m=parts[i].capacity;
             x=i;}
 
@@ -72,44 +72,36 @@ int findmax(struct partitions parts[], int n,int pro)
   return x;
 }
 //----------------------------------------------------------------TEST-CASES-----------------------------------------------------------------------
-//----Enter the size of the queue:
-// 7
-//----Enter the number of paritions:
-// 7
-//----Enter the size of the partitions:
-// 100 400 500 1000 600 800 200
-//----Enter the size of the processes:
-// 1000
-//----Process 0 cannot be assigned to any partition
-//----Do you want to de-allocate any partition? 1.Yes 2.No
-//1
-//----Allowed partitions are: There are no allowed partitions!
-//----Enter the size of the process:
-// 212
-//----Process 1 assigned to partition
-// 3
-//----Enter the size of the process:
-// 417
-//----Process 2 assigned to partition
-//5
-//----Enter the size of the process:
-//112
-//----Process 3 assigned to partition
-//4
-//----Enter the size of the process:
-//426
-//----Process 4 assigned to partition
-// 2
-//----Enter the size of the process:
-//12
-//----Process 5 assigned to partition 1
-//----Enter the size of the process:
-//800
-//----Process 6 cannot be assigned to any partition
-//----Do you want to de-allocate any partition? 1.Yes 2.No
-//1
-//----Allowed partitions are:
-//3 5
-//----Enter the partition you want to de-allocate:
-// 5
-//----Process 6 assigned to partition 5
+Enter the size of the queue: 7
+Enter the number of partitions: 7
+Enter the size of the partitions :100 400 500 1000 800 200
+600
+Enter the size of the process: 1000
+Process 0 assigned to partition 3
+Enter the size of the process: 212
+Process 1 assigned to partition 4
+Enter the size of the process: 417
+Process 2 assigned to partition 6
+Enter the size of the process: 112
+Process 3 assigned to partition 2
+Enter the size of the process: 426
+Process 4 cannot be assigned to any partition
+Do you want to de-allocate any partition? 1.Yes 2.No
+1
+Allowed partitions are: 2 3 4 6
+ Enter the partition you want to de-allocate: 3
+Process 4 assigned to partition 3
+Enter the size of the process: 500
+Process 5 cannot be assigned to any partition
+Do you want to de-allocate any partition? 1.Yes 2.No
+1
+Allowed partitions are: 2 3 4 6
+ Enter the partition you want to de-allocate: 6
+Process 5 assigned to partition 6
+Enter the size of the process: 800
+Process 6 cannot be assigned to any partition
+Do you want to de-allocate any partition? 1.Yes 2.No
+1
+Allowed partitions are: 3 4
+ Enter the partition you want to de-allocate: 4
+Process 6 assigned to partition 4 
