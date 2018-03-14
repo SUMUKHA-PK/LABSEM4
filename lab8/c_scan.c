@@ -44,14 +44,12 @@ int main()
           j++;s+=abs(queue[i]-queue[i-1]);
         }
       if(queue[n-1]!=size){printf("The %d-th movement is from track %d to %d with total seek of: %d\n",++j,queue[n-1],size,abs(size-queue[n-1]));s+=abs(size-queue[n-1]);}
-      printf("The %d-th movement is from track %d to %d with total seek of: %d\n",++j,size,queue[z-1],abs(size-queue[z-1]));
-      s+=abs(queue[z-1]-size);
-      for(i=z-1;i>0;i--)
+      for(i=0;i<z;i++)
       {
         printf("The %d-th movement is from track %d to %d with total seek of: %d\n",j+1,queue[i],queue[i-1],abs(queue[i]-queue[i-1]));
         j++;s+=abs(queue[i]-queue[i-1]);
       }
-      if(queue[0]!=0){printf("The %d-th movement is from track %d to %d with total seek of: %d\n",++j,queue[0],0,queue[0]);s+=queue[0];}
+      if(queue[i]!=queue[z]){printf("The %d-th movement is from track %d to %d with total seek of: %d\n",++j,queue[i],queue[z],abs(queue[i]-queue[z]));s+=abs(queue[i]-queue[z]);}
       printf("\nFinal seek amount: %d\n",s);
     }
     else
@@ -76,8 +74,6 @@ int main()
           j++;s+=abs(queue[i]-queue[i-1]);
         }
       if(queue[0]!=0){printf("The %d-th movement is from track %d to %d with total seek of: %d\n",++j,queue[0],0,queue[0]);s+=queue[0];}
-      printf("The %d-th movement is from track %d to %d with total seek of: %d\n",++j,0,queue[z+1],abs(queue[z+1]));
-      s+=abs(queue[z+1]);
       for(i=z+2;i<n;i++)
       {
         printf("The %d-th movement is from track %d to %d with total seek of: %d\n",j+1,queue[i-1],queue[i],abs(queue[i]-queue[i-1]));
@@ -143,7 +139,7 @@ void sort (int a[],int n)
 //199
 //----Enter the track position of all the requests:
 // 98 14 37 122 64 124 67 183
-//----The 1-th movement is from track 53 to 37, with total seek of: 16 
+//----The 1-th movement is from track 53 to 37, with total seek of: 16
 //----The 2-th movement is from track 37 to 14 with total seek of: 23
 //----The 3-th movement is from track 14 to 0 with total seek of: 14
 //----The 4-th movement is from track 0 to 67 with total seek of: 67

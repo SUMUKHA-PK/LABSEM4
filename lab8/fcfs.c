@@ -2,17 +2,19 @@
 #include<math.h>
 int main()
 {
-  printf("Enter the number of processes: ");
+  printf("Enter the number of requests: ");
   int n,i;
   scanf("%d",&n);
   int queue[n],seek[n];
-  printf("Enter the track position of the processes: ");
+  printf("Enter the start of the pin: ");
+  int start; scanf("%d",&start);
+  printf("Enter the track position of the requests: ");
   for(i=0;i<n;i++)
   {
     scanf("%d",&queue[i]);
     seek[i]=0;
   }
-  seek[0]=queue[0];
+  seek[0]=abs(start-queue[0]);
   for(i=1;i<n;i++)
   {
     seek[i]+=abs(queue[i]-queue[i-1]);

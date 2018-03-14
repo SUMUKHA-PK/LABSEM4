@@ -40,9 +40,11 @@ int main()
           printf("The %d-th movement is from track %d to %d with total seek of: %d \n",j+1,queue[i-1],queue[i],abs(queue[i]-queue[i-1]));
           j++;s+=abs(queue[i]-queue[i-1]);
         }
-      for(i=0;i<=z;i++)
+      printf("The %d-th movement is from track %d to %d with total seek of: %d\n",++j,queue[n-1],queue[z-1],abs(queue[n-1]-queue[z-1]));
+      s+=abs(queue[z-1]-queue[n-1]);
+      for(i=z-1;i>0;i--)
       {
-        printf("The %d-th movement is from track %d to %d with total seek of: %d\n",j+1,queue[i-1],queue[i],abs(queue[i]-queue[i-1]));
+        printf("The %d-th movement is from track %d to %d with total seek of: %d\n",j+1,queue[i],queue[i-1],abs(queue[i]-queue[i-1]));
         j++;s+=abs(queue[i]-queue[i-1]);
       }
       printf("\nFinal seek amount: %d\n",s);
@@ -68,9 +70,11 @@ int main()
           printf("The %d-th movement is from track %d to %d with total seek of: %d \n",j+1,queue[i],queue[i-1],abs(queue[i]-queue[i-1]));
           j++;s+=abs(queue[i]-queue[i-1]);
         }
-      for(i=n-1;i>z;i--)
+      printf("The %d-th movement is from track %d to %d with total seek of: %d\n",++j,queue[0],queue[z],abs(queue[z]-queue[0]));
+      s+=abs(queue[z]-queue[0]);
+      for(i=z+1;i<n;i++)
       {
-        printf("The %d-th movement is from track %d to %d with total seek of: %d\n",j+1,queue[i],queue[i-1],abs(queue[i]-queue[i-1]));
+        printf("The %d-th movement is from track %d to %d with total seek of: %d\n",j+1,queue[i-1],queue[i],abs(queue[i]-queue[i-1]));
         j++;s+=abs(queue[i]-queue[i-1]);
       }
       printf("\nFinal seek amount: %d\n",s);
@@ -99,6 +103,23 @@ void sort (int a[],int n)
 /*
 Enter the number of requests: 8
 Enter the starting track of the seek pin: 53
+Enter the direction of motion of seek pin: -
+Enter the track position of all the requests: 98 14 37 122 64 124 67 183
+The 1-th movement is from track 53 to 37, with total seek of: 16
+The 2-th movement is from track 37 to 14 with total seek of: 23
+The 3-th movement is from track 14 to 64 with total seek of: 50
+The 4-th movement is from track 64 to 67 with total seek of: 3
+The 5-th movement is from track 67 to 98 with total seek of: 31
+The 6-th movement is from track 98 to 122 with total seek of: 24
+The 7-th movement is from track 122 to 124 with total seek of: 2
+The 8-th movement is from track 124 to 183 with total seek of: 59
+
+Final seek amount: 208
+*/
+/*2*/
+/*
+Enter the number of requests: 8
+Enter the starting track of the seek pin: 53
 Enter the direction of motion of seek pin: +
 Enter the track position of all the requests: 98 14 37 122 64 124 67 183
 The 1-th movement is from track 53 to 64, with total seek of: 11
@@ -107,28 +128,8 @@ The 3-th movement is from track 67 to 98 with total seek of: 31
 The 4-th movement is from track 98 to 122 with total seek of: 24
 The 5-th movement is from track 122 to 124 with total seek of: 2
 The 6-th movement is from track 124 to 183 with total seek of: 59
-The 7-th movement is from track 0 to 14 with total seek of: 14
-The 8-th movement is from track 14 to 37 with total seek of: 23
-The 9-th movement is from track 37 to 64 with total seek of: 27
+The 7-th movement is from track 183 to 37 with total seek of: 146
+The 8-th movement is from track 37 to 14 with total seek of: 23
 
-Final seek amount: 194
-
-*/
-
-/*2*/
-/*
-Enter the number of requests: 8
-Enter the starting track of the seek pin: 53
-Enter the direction of motion of seek pin: -
-Enter the track position of all the requests: 98 14 37 122 64 124 67 183
-The 1-th movement is from track 53 to 37, with total seek of: 16
-The 2-th movement is from track 37 to 14 with total seek of: 23
-The 3-th movement is from track 183 to 124 with total seek of: 59
-The 4-th movement is from track 124 to 122 with total seek of: 2
-The 5-th movement is from track 122 to 98 with total seek of: 24
-The 6-th movement is from track 98 to 67 with total seek of: 31
-The 7-th movement is from track 67 to 64 with total seek of: 3
-
-Final seek amount: 158
-
+Final seek amount: 299
 */
