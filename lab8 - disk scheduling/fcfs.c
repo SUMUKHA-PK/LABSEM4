@@ -30,3 +30,21 @@ int main()
   printf("\n Final seek amount: %d\n",s);
   return 0;
 }
+  /* 
+
+  -------------------------------------------------------------------TEST CASES----------------------------------------------------
+
+  Enter the number of requests: 8
+Enter the start of the pin: 53
+Enter the track position of the requests: 98 14 37 122 64 124 67 183
+The movement of the seek pin:
+Process 0 on track 98 -- 45 
+Process 1 on track 14 -- 84 
+Process 2 on track 37 -- 23 
+Process 3 on track 122 -- 85 
+Process 4 on track 64 -- 58 
+Process 5 on track 124 -- 60 
+Process 6 on track 67 -- 57 
+Process 7 on track 183 -- 116 
+
+ Final seek amount: 528
