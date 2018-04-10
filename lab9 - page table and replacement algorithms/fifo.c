@@ -1,7 +1,8 @@
 //FIFO page replacement
+
 #include<stdio.h>
 void print(int page[], int n);
-int getslot(int page[], int n,int sl);
+int getslot(int page[], int n,int sl,int x);
 int main()
 {
 	int n;
@@ -21,11 +22,18 @@ int main()
 	int sl=-1;
 	for(i=0;i<req;i++)
 		{
-			printf("The page table after this request: ");
-			int x = getslot(page,n,sl);
-			page[x]=requests[i];
-			print(page,n);
-			sl=x;
+			int x = getslot(page,n,sl,requests[i]);
+			if(x!=-1)
+			{
+				printf("The page table after this request: ");
+				page[x]=requests[i];
+				print(page,n);
+				sl=x;
+			}
+			else
+				{
+					printf("Query already exists!\n");
+				}
 		}
 	return 0;
 }
@@ -41,8 +49,14 @@ void print(int page[], int n)
 	printf("|\n");
 }
 
-int getslot(int page[], int n,int sl)
+int getslot(int page[], int n,int sl,int x)
 {
+	int i;
+	for(i=0;i<n;i++)
+		{
+			if(x==page[i])
+				return -1;
+		}
 	return (sl+1)%n;
 }
 
@@ -53,17 +67,16 @@ int getslot(int page[], int n,int sl)
 
 Enter the size of the page table: 4
 Enter the number of page requests: 10
-Enter the requests: 8 4 10 5 3 6 1 7 2 4 
-The page table after this request: | 8 |  |  |  |
-The page table after this request: | 8 | 4 |  |  |
-The page table after this request: | 8 | 4 | 10 |  |
-The page table after this request: | 8 | 4 | 10 | 5 |
-The page table after this request: | 3 | 4 | 10 | 5 |
-The page table after this request: | 3 | 6 | 10 | 5 |
-The page table after this request: | 3 | 6 | 1 | 5 |
-The page table after this request: | 3 | 6 | 1 | 7 |
-The page table after this request: | 2 | 6 | 1 | 7 |
-The page table after this request: | 2 | 4 | 1 | 7 |
-
+Enter the requests: 1 2 3 1 2 4 2 8 9 4
+The page table after this request: | 1 |  |  |  |
+The page table after this request: | 1 | 2 |  |  |
+The page table after this request: | 1 | 2 | 3 |  |
+Query already exists!
+Query already exists!
+The page table after this request: | 1 | 2 | 3 | 4 |
+Query already exists!
+The page table after this request: | 8 | 2 | 3 | 4 |
+The page table after this request: | 8 | 9 | 3 | 4 |
+Query already exists!
 
 */
