@@ -1,55 +1,69 @@
-// First in first out page replacement algorithm
+//FIFO page replacement
 #include<stdio.h>
-int check(int a[], int n,int x);
-void print(int a[], int n);
+void print(int page[], int n);
+int getslot(int page[], int n,int sl);
 int main()
 {
-  int las,pas,s;
-  printf("Enter the size logical address space: ");
-  scanf("%d",&las);
-  printf("Enter the size of the page/frame: ");
-  scanf("%d",&s);
-  printf("Enter the size physical address space: ");
-  scanf("%d",&pas);
-  int n = las/s;n++;
-  int page_table[n];
-  for(int i=0;i<n;i++)
-    page_table[i]=-1;
-  int c=0;
-  while(1)
-  {
-    int f=0;
-    c++;
-    printf("If you want to continue hit 1, else 0: \n");
-    int x; scanf("%d",&x);if(x==0) break;
-    int la,pa;
-    printf("Enter the logical address: ");
-    scanf("%d",&la);
-    c=c%n;
-    if(!check(page_table,c,la)){f=1;page_table[c-1]=la;}
-    if(f==0)c--;
-    printf("Page Table: \n");
-    print(page_table,n-1);
-  }
-return 0;
+	int n;
+	printf("Enter the size of the page table: ");
+	scanf("%d",&n);
+	int page[n];
+	for(int k=0;k<n;k++)
+		page[k]=0;
+	int req;
+	printf("Enter the number of page requests: ");
+	scanf("%d",&req);
+	int requests[req];
+	int i;
+	printf("Enter the requests: ");
+	for(i=0;i<req;i++)
+		scanf("%d",&requests[i]);
+	int sl=-1;
+	for(i=0;i<req;i++)
+		{
+			printf("The page table after this request: ");
+			int x = getslot(page,n,sl);
+			page[x]=requests[i];
+			print(page,n);
+			sl=x;
+		}
+	return 0;
 }
-void print(int a[], int n)
+
+void print(int page[], int n)
 {
-  printf("\nPrinting: ");
-  int i;
-  for(i=0;i<n;i++)
-    {
-      printf(" %d ",a[i]);
-    }
-  printf("\n");
+	int i;
+	for(i=0;i<n;i++)
+		{
+			if(page[i]!=0)printf("| %d ",page[i]);
+			else printf("|  ");
+		}
+	printf("|\n");
 }
-int check(int a[], int n,int x)
+
+int getslot(int page[], int n,int sl)
 {
-  int i;
-  for(i=0;i<n-1;i++)
-    {
-      if(a[i]==x)
-        return 1;
-    }
-  return 0;
+	return (sl+1)%n;
 }
+
+
+/*
+
+----------------------------------------------------------------TEST CASES----------------------------------------------
+
+Enter the size of the page table: 4
+Enter the number of page requests: 10
+Enter the requests: 8 4 10 5 3 6 1 7 2 4 
+The page table after this request: | 8 |  |  |  |
+The page table after this request: | 8 | 4 |  |  |
+The page table after this request: | 8 | 4 | 10 |  |
+The page table after this request: | 8 | 4 | 10 | 5 |
+The page table after this request: | 3 | 4 | 10 | 5 |
+The page table after this request: | 3 | 6 | 10 | 5 |
+The page table after this request: | 3 | 6 | 1 | 5 |
+The page table after this request: | 3 | 6 | 1 | 7 |
+The page table after this request: | 2 | 6 | 1 | 7 |
+The page table after this request: | 2 | 4 | 1 | 7 |
+
+
+*/
