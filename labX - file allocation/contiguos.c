@@ -1,119 +1,165 @@
-#include<stdio.h>
-struct file{
-  int ID,size;
-};
-struct queue
+#include <stdio.h>
+struct files
 {
-  int p;
-  int q;
+	int name;
+	int size;
+	int start;
+	int end;
+	int present;
 };
 struct block
 {
-  int allocated;
-  int file;
+	int free;
 };
-struct file File[1000];
-void print(struct block Block[],int n);
-int check(struct block Block[], int n,int p);
-int main()
-{
-  int size_disk, size_block,i;
-  printf("Enter the size of the disk: ");
-  scanf("%d",&size_disk);
-  printf("Enter the size of each physical block: ");
-  scanf("%d",&size_block);
-  int n_blocks = size_disk/size_block;
+struct files FILES[100];
 
-  struct block Block[n_blocks];
-  for(int l=0;l<n_blocks;l++)
-  {
-    Block[l].allocated=-1;
-     Block[l].file=-1;
-  }
+struct block FREE_BLOCKS[100];
 
-  struct queue Q[100];
-  int c =0,co=0,cou=0;
-  while(1)
-  {
-    printf("What do you want to do? 1. ADD 2. REMOVE 3.EXIT 4.SEARCH\n");
-    int x;
-    scanf("%d",&x);
-    if(x==3)
-      break;
-    if(x==1)
-      {
-        int flag=0;
-        printf("Enter the ID of the file: ");
-        scanf("%d",&File[c].ID);
-        printf("Enter the size of the file: ");
-        scanf("%d",&File[c].size);
-        c++;
-        int p = File[c-1].size/size_block;if(p==0)p=1;//printf("%d",p);
-        int q = File[c-1].size - p*size_block;//printf("%d",q);
-        if(check(Block,n_blocks,p+1))       // Adding larger files to queue
-          {
-            printf("File moved to queue, remove other files to include this!\n");
-            Q[cou].p=p;
-            Q[cou].q=q;
-            cou++;
-          }
-        else               // Only if file fits, it can proceed
-          {
-            int h;
-            for(h=co;h<co+p;h++)  //Full blocks
-              {
-                Block[h].file=File[c-1].ID;
-                Block[h].allocated=1;
-              }
-            co+=p;
-            if(q>0)                   //Half blocks if exist
-              {
-                co++;
-                Block[co].allocated=1;
-                Block[h].file = File[c-1].ID;
-              }
-          }
-        print(Block,n_blocks);
-      }
-    if(x==2)
-      {
-        printf("Enter the ID of the file to be removed: ");
-        int ID;
-        scanf("%d",&ID);
-        for(i=0;i<n_blocks;i++)
-          {
-            if(Block[i].file==ID)
-              {Block[i].file=-1;co--;}
-          }
-        printf("It has been removed\n");
-        printf("Following is the memory space: ");
-        print(Block,n_blocks);
-      }
-  }
-}
-void print(struct block Block[],int n)
+int LAST=-1, no_free=0;
+
+void add( int no_files, int no_blocks, int block_size)
 {
-  int i;
-  for(i=0;i<n;i++)
-    printf("%d ",Block[i].file);
-  printf("\n");
+	int count=0, blocks_required=0,initial=0,final=0;
+
+	for (int i = 0; i < no_files; ++i)
+	{
+		if(FILES[i].present == 0)
+		{
+			if(FILES[i].size % block_size == 0)
+				blocks_required = FILES[i].size / block_size;
+			else
+				blocks_required = FILES[i].size / block_size + 1;
+			if(LAST!=no_blocks-1)
+			{
+				if(LAST + blocks_required < no_blocks)
+				{
+					FILES[i].start = LAST + 1;
+					FILES[i].end = LAST + blocks_required;
+					LAST = FILES[i].end;
+					FILES[i].present = 1;
+					for (int j = FILES[i].start; j <= FILES[i].end; ++j)
+					{
+						FREE_BLOCKS[j].free = 1;
+					}
+					no_free -= FILES[i].end - FILES[i].start + 1;
+				}
+			}
+			else
+			{
+				for (int i = 0; i < no_blocks; ++i)
+				{
+					initial = i;
+					while(FREE_BLOCKS[i].free == 0 && FREE_BLOCKS[i+1].free == 0)
+					{
+						final = i+1;
+					}
+					if(final - initial + 1 <= blocks_required)
+					{
+						FILES[i].start = initial;
+						FILES[i].end = initial + blocks_required-1;
+						FILES[i].present = 1;
+
+						for (int j = FILES[i].start; j <= FILES[i].end; ++j)
+						{
+							FREE_BLOCKS[j].free = 1;
+						}
+
+						no_free -= FILES[i].end - FILES[i].start + 1;
+						break;
+					}
+				}
+			}
+		}
+	}
 }
-int check(struct block Block[], int n,int p)
+void delete(int file, int no_files, int no_blocks, int block_size)
 {
-  int i,c=1,m=0;
-  for(i=0;i<n-1;i++)
-    {
-      if(Block[i].file==-1&&Block[i+1].file==-1)
-        {
-          c++;
-          if(c>m)
-            c=m;
-        }
-      else if(Block[i].file==-1&&Block[i].file!=-1)
-        c=0;
-    }
-  if(m>p)
-    return 1;
-  else
-    return 0;
+	if(FILES[file].present == 1)
+	{
+		FILES[file].present = -1;
+
+		for (int i = FILES[file].start; i <= FILES[file].end; ++i)
+		{
+			FREE_BLOCKS[i].free = 0;
+		}
+	}
+}
+
+int main(int argc, char const *argv[])
+{
+	printf("Enter the total capacity of disk\n");
+	int total_capacity;
+	scanf("%d",&total_capacity);
+
+	printf("Enter the size of each block\n");
+	int block_size;
+	scanf("%d",&block_size);
+
+	int no_blocks = total_capacity/block_size;
+
+	for (int i = 0; i < no_blocks; ++i)
+	{
+		FREE_BLOCKS[i].free = 0;
+	}
+
+	no_free=no_blocks;
+
+	printf("Enter the choice\n1 Add 2.Remove 3. Stop\n");
+	int ch;
+	scanf("%d",&ch);
+
+	int no_files,j=0,count=0,no_remove,remove;
+
+	while(ch!=3)
+	{
+		switch(ch)
+		{
+			case 1: printf("Enter the number of files\n");
+					scanf("%d",&no_files);
+
+					printf("Enter the size of the files\n");
+
+					for (int i = 0; i < no_files; ++i)
+					{
+						scanf(" %d",&FILES[j].size);
+						FILES[j].present = 0;
+						j++;
+					}
+
+					add(j,no_blocks, block_size);
+
+					for (int i = 0; i < j; ++i)
+					{
+						if(FILES[i].present == 1)
+							printf("File %d -- Block(s) %d to %d\n",i, FILES[i].start,FILES[i].end );
+						if(FILES[i].present == 0)
+							printf("File %d -- Cannot be allocated\n",i);
+					}
+					break;
+			case 2: printf("Enter the no files to remove\n");
+					scanf("%d",&no_remove);
+
+					printf("Enter files to delete\n");
+
+					for (int i = 0; i < no_remove; ++i)
+					{
+						scanf("%d",&remove);
+						delete(remove,j,no_blocks, block_size);
+					}
+
+					for (int i = 0; i < j; ++i)
+					{
+						if(FILES[i].present == 1)
+							printf("File %d -- Block(s) %d to %d\n",i, FILES[i].start,FILES[i].end );
+						if(FILES[i].present == 0)
+							printf("File %d Cannot be allocated\n",i);
+					}
+
+			        break;
+
+		}
+		printf("Enter the choice\n1.Add 2.Remove 3.Stop\n");
+		scanf("%d",&ch);
+	}
+	return 0;
 }
